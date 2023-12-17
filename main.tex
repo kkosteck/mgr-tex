@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bachelor's & Master's Thesis Template             %%
+%% Copyleft by Artur M. Brodzki & Piotr Woźniak      %%
+%% Faculty of Electronics and Information Technology %%
+%% Warsaw University of Technology, 2019-2020        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[
+    left=2.5cm,         % Sadly, generic margin parameter
+    right=2.5cm,        % doesnt't work, as it is
+    top=2.5cm,          % superseded by more specific
+    bottom=3cm,         % left...bottom parameters.
+    bindingoffset=6mm,  % Optional binding offset.
+    nohyphenation=false % You may turn off hyphenation, if don't like.
+]{src/wut-thesis}
+
+\langpol % Dla języka angielskiego mamy \langeng
+\graphicspath{{tex/img/}}             % Katalog z obrazkami.
+\addbibresource{bibliografia.bib} % Plik .bib z bibliografią
+
+\begin{document}
+
+%--------------------------------------
+% Strona tytułowa
+%--------------------------------------
+\MasterThesis % Dla pracy inżynierskiej mamy \EngineerThesis
+\facultyeiti
+\instytut{Informatyki}
+\kierunek{informatyka}
+\specjalnosc{Sztuczna inteligencja}
+\title{Generowanie podpisów do obrazków}
+\engtitle{Image caption generation}
+\author{Kacper Kostecki}
+\album{300236}
+\promotor{dr inż. Piotr Andruszkiewicz}
+\date{\the\year}
+\maketitle
+
+%--------------------------------------
+% Streszczenie po polsku
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\abstract We wszelkich dziedzinach życia człowieka obrazy stanowią istotny element komunikacji i przekazu informacji, jednak człowiek napotyka trudności w efektywnym przetwarzaniu i wykorzystywaniu tej ogromnej ilości wizualnych danych. Analiza i interpretacja obrazów są zadaniem wymagającym znacznego nakładu czasu i wysiłku intelektualnego. Rozwiązaniem tego problemu są algorytmy uczenia maszynowego umożliwiające automatyczne generowanie podpisów do obrazów, co znacząco ułatwia cały proces wydobywania z nich informacji. Jednakże ich wykorzystanie generuje kolejną przeszkodę: zasoby komputerowe. W celu rozwiązania tak skomplikowanego problemu, jakim jest generowanie podpisów do obrazów, wykorzystane algorytmy są niezwykle skomplikowane, a co za tym idzie, potrzebują coraz większą ilość zasobów komputerowych. Celem niniejszej pracy dyplomowej było zbadanie skuteczności, jak również efektywności wykorzystywanych algorytmów do generowania podpisów do obrazków.
+\keywords podpisy obrazków, język naturalny, wizja komputerowa, zasoby komputerowe
+
+%--------------------------------------
+% Streszczenie po angielsku
+%--------------------------------------
+\vspace{1cm}
+\secondabstract In all areas of human life, images constitute an essential element of communication and information transmission, however, humans encounter difficulties in efficiently processing and utilizing this vast amount of visual data. Analyzing and interpreting images is a task that requires significant time and intellectual effort. Machine learning algorithms provide a solution to this problem by enabling automatic generation of captions for images, greatly facilitating the process of extracting information from them. However, their utilization presents another challenge: computer resources. To address the complex problem of generating captions for images, the employed algorithms are highly intricate, thus requiring increasingly larger amounts of computer resources. The aim of this thesis was to examine the effectiveness and efficiency of the utilized algorithms for generating captions for images.
+\secondkeywords image captioning, natural language processing, computer vision, computer resources
+
+%--------------------------------------
+% Oświadczenie o autorstwie
+%--------------------------------------
+\cleardoublepage  % Zaczynamy od nieparzystej strony
+\pagestyle{plain}
+\makeauthorship
+
+%--------------------------------------
+% Spis treści
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\tableofcontents
+
+%--------------------------------------
+% Rozdziały
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\pagestyle{headings}
+
+\input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
+\input{tex/2-teoria}
+\input{tex/3-aktualne-rozwiazania}
+\input{tex/4-opis-rozwiazania}
+\input{tex/5-wyniki}
+\input{tex/6-wnioski}
+
+%--------------------------------------------
+% Literatura
+%--------------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\printbibliography
+
+%--------------------------------------------
+% Spisy (opcjonalne)
+%--------------------------------------------
+\newpage
+\pagestyle{plain}
+
+% Wykaz symboli i skrótów.
+% Pamiętaj, żeby posortować symbole alfabetycznie
+% we własnym zakresie. Ponieważ mało kto używa takiego wykazu,
+% uznałem, że robienie automatycznie sortowanej listy
+% na poziomie LaTeXa to za duży overkill.
+% Makro \acronymlist generuje właściwy tytuł sekcji,
+% w zależności od języka.
+% Makro \acronym dodaje skrót/symbol do listy,
+% zapewniając podstawowe formatowanie.
+% //AB
+\vspace{0.8cm}
+\acronymlist
+\acronym{CNN}{Splotowa sieć neuronowa}
+\acronym{RNN}{Rekurencyjna sieć neuronowa}
+\acronym{LSTM}{Long short-term memory}
+\acronym{GRU}{Gated recurrent unit}
+
+\listoffigurestoc     % Spis rysunków.
+\vspace{1cm}          % vertical space
+\listoftablestoc      % Spis tabel.
+\vspace{1cm}          % vertical space
+\listofappendicestoc  % Spis załączników
+
+% Używając powyższych spisów jako szablonu,
+% możesz tu dodać swój własny wykaz bądź listę,
+% np. spis algorytmów.
+
+\end{document} % Dobranoc.
