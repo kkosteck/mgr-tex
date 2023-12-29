@@ -1,20 +1,18 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
 
 \section{Opis przeprowadzonych eksperymentów}
-W celu generowania podpisów do obrazków wykorzystana została architektura składającą się z modułu kodującego oraz modułu dekodującego. W eksperymentach zostały wykorzystane różne konfiguracje modułów kodujących wraz z modułami dekodującymi.
+W celu generowania podpisów do obrazków wykorzystana została architektura składającą się z modułu kodującego oraz modułu dekodującego. W eksperymentach zostały wykorzystane ich różne konfiguracje. Dodatkowo wyniki zostały porównane z architekturami dedykowanymi do zadania generowania podpisów.
 \subsection{Wykorzystanie wstępnie wytrenowanych modeli}
-Szeroką popularnością w dziedzinie trenowania modeli sieci neuronowych cieszy się technika przenoszenia wiedzy. Jest to technika w uczeniu maszynowym, w której model uczony jest na jednym zadaniu, a następnie wykorzystuje tę wiedzę do lepszego rozwiązania innego, zazwyczaj podobnego zadania. Może zostać ona podzielona na dwa kluczowe kroki:
+Szeroką popularnością w dziedzinie trenowania modeli sieci neuronowych cieszy się technika przenoszenia wiedzy. Jest to technika uczenia maszynowego, w której model uczony jest na jednym zadaniu, a następnie wykorzystuje tę wiedzę do lepszego rozwiązania innego, zazwyczaj podobnego zadania. Może zostać ona podzielona na dwa kluczowe kroki:
 \begin{itemize}
     \item Początkowe uczenie modelu na dużym zbiorze danych i zadaniu, na którym jest dostępna duża ilość informacji.
     \item  Dostosowanie modelu do nowego zadania. Parametry modelu są dostosowywane do specyfiki nowego zadania, a wagi nauczone podczas początkowe uczenia są używane jako punkt wyjścia.
 \end{itemize}
-W przypadku generowania podpisów do obrazków technikę przenoszenia wiedzy można zastosować poprzez wykorzystanie wcześniej wyuczonych modeli sieci splotowych w ramach modułu kodującego. Trenowanie splotowych sieci neuronowych od zera na dużym zbiorze danych może być czasochłonne i wymagać dużej ilości zasobów obliczeniowych. Wykorzystanie wstępnie wytrenowanych modeli pozwala uniknąć tego procesu, ponieważ modele te są już przeszkolone do ekstrakcji cech, co jest ich głównym zadaniem w całej architekturze. Z tego względu dane treningowe zostały poddane wcześniejszemu przetworzeniu przez moduł kodujący, a trening polegał na uczeniu jedynie modułu dekodującego.
-
-Wykorzystane moduły kodujące:
+W przypadku generowania podpisów do obrazków technikę przenoszenia wiedzy można zastosować poprzez wykorzystanie wcześniej wyuczonych modeli sieci splotowych w ramach modułu kodującego. Trenowanie splotowych sieci neuronowych od zera na dużym zbiorze danych może być czasochłonne i wymagać dużej ilości zasobów obliczeniowych. Wykorzystanie wstępnie wytrenowanych modeli pozwala uniknąć tego procesu, ponieważ modele te są już przeszkolone do ekstrakcji cech, co jest ich głównym zadaniem w całej architekturze. Z tego względu dane treningowe zostały poddane wcześniejszemu przetworzeniu przez moduł kodujący, a trening polegał na uczeniu jedynie modułu dekodującego. Wykorzystane moduły kodujące:
 \begin{itemize}
-    \item AlexNet \cite{alexnet} -- jedna z najbardziej wpływowych sieci w historii przetwarzania obrazów, cechuje ją duża liczba parametrów, co pozwala na wyodrębnienie dużej liczby cech,
-    \item GoogLeNet \cite{googlenet} -- sieć charakteryzuje się modułami inception mającymi na celu efektywne wykorzystanie zasobów obliczeniowych,
-    \item VGGNet \cite{vggnet} -- bardzo głęboka sieć neuronowa wykorzystująca małe filtry splotowe pozwalających na wyodrębnienie cech o różnym stopniu skomplikowania,
+    \item AlexNet \cite{alexnet} -- jedna z najbardziej wpływowych sieci w historii przetwarzania obrazów, cechuje ją duża liczba parametrów, co pozwala na wyodrębnienie dużej liczby cech.
+    \item GoogLeNet \cite{googlenet} -- sieć charakteryzuje się modułami inception mającymi na celu efektywne wykorzystanie zasobów obliczeniowych.
+    \item VGGNet \cite{vggnet} -- bardzo głęboka sieć neuronowa wykorzystująca małe filtry splotowe pozwalających na wyodrębnienie cech o różnym stopniu skomplikowania.
     \item ResNet \cite{resnet} -- bardzo głęboka sieć neuronowa charakteryzująca się blokami rezydualnymi, które umożliwiają efektywne uczenie się sieci neuronowej o dużej liczbie warstw.
     \item VIT \cite{vit} - transformer wizyjny będący rozszerzeniem modelu transformer. Implementuje on mechanizm atencji, w celu wyodrębniania poszczególnych cech obrazu.
 \end{itemize}
@@ -27,9 +25,9 @@ Ze względu na wykorzystanie wstępnie wytrenowanych wag modułów zostały one 
 \end{figure}
 \noindent Wykorzystane moduły dekodujące:
 \begin{itemize}
-    \item RNN \cite{rnn} -- podstawowa rekurencyjna sieć neuronowa,
-    \item LSTM \cite{lstm} -- jest rozszerzeniem podstawowej rekurencyjnej sieci neuronowej, której głównym celem jest rozwiązanie problemu zanikającego gradientu,
-    \item GRU \cite{gru} -- posiada mniej parametrów niż LSTM, co w teorii pozwala na szybsze i wydajniejsze uczenie się,
+    \item RNN \cite{rnn} -- podstawowa rekurencyjna sieć neuronowa.
+    \item LSTM \cite{lstm} -- jest rozszerzeniem podstawowej rekurencyjnej sieci neuronowej, której głównym celem jest rozwiązanie problemu zanikającego gradientu.
+    \item GRU \cite{gru} -- posiada mniej parametrów niż LSTM, co w teorii pozwala na szybsze i wydajniejsze uczenie się.
     \item Transformer \cite{transformer} -- umożliwia na analizowanie pełnej sekwencji w jednym momencie poprzez wykorzystanie modułu atencji.
 \end{itemize}
 Każda kombinacja modułu kodującego wraz z modułem dekodującym została sprawdzona pod względem:
@@ -38,13 +36,13 @@ Każda kombinacja modułu kodującego wraz z modułem dekodującym została spra
     \item wydajności generowania podpisów, poprzez sprawdzenie czasu potrzebnego na przetworzenie testowego zbioru danych,
     \item efektywności poprzez sprawdzenie skuteczności generowania podpisów.
 \end{itemize}
-Wydajność testowania oraz skuteczność generowania podpisów została również sprawdzona dla dedykowanej architektury \cite{wang2022git} wykorzystującej transformer wizyjny wraz z klasycznym transformerem. W tym celu wykorzystane zostały wagi udostępnione przez autorów -- pozwoliło to na całkowite pominięcie etapu uczenia tejże sieci.
+Wydajność testowania oraz skuteczność generowania podpisów została również sprawdzona dla dedykowanej architektury GIT \cite{wang2022git} wykorzystującej transformer wizyjny wraz z klasycznym transformerem. W tym celu wykorzystane zostały wagi udostępnione przez autorów -- pozwoliło to na całkowite pominięcie etapu uczenia tejże sieci.
 \subsection{Trenowanie pełnej architektury}
-W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych modułów kodujących, ich wydajność treningowa została porównana do wydajności uczenia pełnej architektury. Porównane zostały wszystkie wcześniej wymienione kombinacje modułów kodujących wraz z modułami dekodującymi. Oprócz tego do zbioru modułów dekodujących dodany został również podstawowy wariant splotowej sieci neuronowej. Moduły zostały połączone w takim sam sposób jak w przypadku wykorzystania wstępnie wytrenowanych wag -- ostatnia warstwa w pełni połączona została usunięta, a dane wyjściowe modułu kodującego są bezpośrednimi danymi wejściowymi modułu dekodującego.
+W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych modułów kodujących, ich wydajność treningowa została porównana do wydajności uczenia pełnej architektury. Porównane zostały wszystkie wcześniej wymienione kombinacje modułów kodujących wraz z modułami dekodującymi. Oprócz tego do zbioru modułów dekodujących dodany został również podstawowy wariant splotowej sieci neuronowej. Moduły zostały połączone w taki sam sposób jak w przypadku wykorzystania wstępnie wytrenowanych wag -- ostatnia warstwa w pełni połączona została usunięta, a dane wyjściowe modułu kodującego są bezpośrednimi danymi wejściowymi modułu dekodującego.
 \subsection{Wstępne przetwarzanie danych}
-Dane wejściowe w postaci macierzy pikseli obrazów cyfrowych są normalizowane oraz ich wymiary są ujednolicane w celu uproszczenia obliczeń. Natomiast przetwarzanie języka naturalnego odbywa się poprzez tokenizację -- w tym celu został wykorzystany wcześniej wytrenowany model Distilbert \cite{distilbert}.
+Dane wejściowe w postaci macierzy pikseli obrazów cyfrowych zostały normalizowane, a ich wymiary ujednolicone w celu uproszczenia obliczeń. Natomiast przetwarzanie języka naturalnego odbyło się poprzez zastosowanie tokenizacji -- w tym celu został wykorzystany wcześniej wytrenowany model Distilbert \cite{distilbert}.
 \subsection{Metryki}
-Oprócz parametrów dotyczących wydajności trenowania oraz testowania podanych rozwiązań sprawdzona została również skuteczność otrzymanych wyników. Ze względu na analogiczne dane w ramach ewaluacji wyników w dziedzinie generowania podpisów do obrazków wykorzystywane są metryki z dziedziny tłumaczenia maszynowego. Wybrane metryki:
+Oprócz parametrów dotyczących wydajności trenowania oraz testowania podanych rozwiązań sprawdzona została również skuteczność otrzymanych wyników. Wybrane metryki:
 \begin{itemize}
     \item BLEU (ang. Bilingual Evaluation Understudy) \cite{bleu} -- metryka oryginalnie wywodząca się z dziedziny tłumaczenia maszynowego, jednakże ze względu na taki sam format danych, idealnie pasuje również do ewaluacji wyników generowania podpisów do obrazów. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica. % MAYBE dodać formułe wyliczania oraz informację o n gramach
     \item METEOR (ang. Metric for Evaluation of Translation with Explicit ORdering) \cite{meteor} -- metryka będąca rozwinięciem metryki BLEU. Odznacza się lepszą oceną korelacji na poziomie zdań, a nie tak jak w~przypadku BLEU, na~poziomie całego korpusu. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
@@ -60,8 +58,7 @@ W celu porównania wpływu użytych jednostek obliczeniowych na efektywność ba
     \item Intel Core i7-1280P -- jednostka CPU.
 \end{itemize}
 W przypadku karty graficznej Tesla T4 wszelkie testy zostały wykonane za pośrednictwem platformy Google Colab umożliwiającej bezpłatny dostęp do zaawansowanych jednostek obliczeniowych. Pozostałe testy zostały wykonane na komputerze osobistym
-% MAYBE opisać sposób testowania, izolowanie środowiska itp.
-\subsection{Implementacja}
+
 Docelowa architektura została zaimplementowana przy użyciu gotowych modeli sieci neuronowych zawartych w bibliotekach PyTorch \cite{pytorch} oraz Transformers \cite{wolf-etal-2020-transformers} dostępnych w języku programowania Python.
 \subsection{Zbiory danych}
 Istnieje wiele zbiorów danych zawierających obrazy wraz z ich opisami. Jednymi z najpopularniejszych są:
