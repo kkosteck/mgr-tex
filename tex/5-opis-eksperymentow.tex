@@ -1,29 +1,15 @@
 \newpage % Rozdziały zaczynamy od nowej strony.
 
 \section{Opis przeprowadzonych eksperymentów}
-W celu generowania podpisów do obrazków wykorzystana została architektura składającą się z modułu kodującego oraz modułu dekodującego. W eksperymentach zostały wykorzystane ich różne konfiguracje. Dodatkowo wyniki zostały porównane z architekturami dedykowanymi do zadania generowania podpisów.
-\subsection{Wykorzystanie wstępnie wytrenowanych modeli}
-Szeroką popularnością w dziedzinie trenowania modeli sieci neuronowych cieszy się technika przenoszenia wiedzy. Jest to technika uczenia maszynowego, w której model uczony jest na jednym zadaniu, a następnie wykorzystuje tę wiedzę do lepszego rozwiązania innego, zazwyczaj podobnego zadania. Może zostać ona podzielona na dwa kluczowe kroki:
-\begin{itemize}
-    \item Początkowe uczenie modelu na dużym zbiorze danych i zadaniu, na którym jest dostępna duża ilość informacji.
-    \item  Dostosowanie modelu do nowego zadania. Parametry modelu są dostosowywane do specyfiki nowego zadania, a wagi nauczone podczas początkowe uczenia są używane jako punkt wyjścia.
-\end{itemize}
-W przypadku generowania podpisów do obrazków technikę przenoszenia wiedzy można zastosować poprzez wykorzystanie wcześniej wyuczonych modeli sieci splotowych w ramach modułu kodującego. Trenowanie splotowych sieci neuronowych od zera na dużym zbiorze danych może być czasochłonne i wymagać dużej ilości zasobów obliczeniowych. Wykorzystanie wstępnie wytrenowanych modeli pozwala uniknąć tego procesu, ponieważ modele te są już przeszkolone do ekstrakcji cech, co jest ich głównym zadaniem w całej architekturze. Z tego względu dane treningowe zostały poddane wcześniejszemu przetworzeniu przez moduł kodujący, a trening polegał na uczeniu jedynie modułu dekodującego. Wykorzystane moduły kodujące:
+W celu generowania podpisów do obrazków wykorzystana została architektura składającą się z modułu kodującego oraz modułu dekodującego. Ich połączenie zostało przedstawione w poprzednim rozdziale, jednakże w celu sprawdzenia, w jakim stopniu zaproponowane rozwiązanie miało wpływ na otrzymane wyniki, zostało ono porównane z architekturą wykorzystującą klasyczne podejście. W eksperymentach zostały wykorzystane ich różne konfiguracje. Dodatkowo wyniki zostały porównane z architekturami dedykowanymi do zadania generowania podpisów. Wykorzystane moduły kodujące:
 \begin{itemize}
     \item AlexNet \cite{alexnet} -- jedna z najbardziej wpływowych sieci w historii przetwarzania obrazów, cechuje ją duża liczba parametrów, co pozwala na wyodrębnienie dużej liczby cech.
     \item GoogLeNet \cite{googlenet} -- sieć charakteryzuje się modułami inception mającymi na celu efektywne wykorzystanie zasobów obliczeniowych.
     \item VGGNet \cite{vggnet} -- bardzo głęboka sieć neuronowa wykorzystująca małe filtry splotowe pozwalających na wyodrębnienie cech o różnym stopniu skomplikowania.
     \item ResNet \cite{resnet} -- bardzo głęboka sieć neuronowa charakteryzująca się blokami rezydualnymi, które umożliwiają efektywne uczenie się sieci neuronowej o dużej liczbie warstw.
-    \item VIT \cite{vit} - transformer wizyjny będący rozszerzeniem modelu transformer. Implementuje on mechanizm atencji, w celu wyodrębniania poszczególnych cech obrazu.
+    \item VIT \cite{vit} - transformer wizyjny będący rozszerzeniem modelu transformer. Implementuje on mechanizm atencji, w celu wyodrębniania poszczególnych cech obrazu. Ze względu na jego znacząco różniącą się architekturę w porównaniu do klasycznych sieci splotowych został on wykorzystany tylko dla rozwiązania klasycznego. Podejście wykorzystujące dane z wewnętrznych warstw splotowych nie jest możliwe do zastosowania, ponieważ transformer wizyjny nie posiada takowych warstw.
 \end{itemize}
-Ze względu na wykorzystanie wstępnie wytrenowanych wag modułów zostały one poddane modyfikacji -- ostatnia warstwa w pełni połączona została usunięta, co zostało przedstawione na rysunku \ref{fig:schemat-pretrained}. Poprzez taką zmianę danymi wyjściowymi tychże sieci są tak zwane mapy szczegółów zawierające wyodrębnione cechy obrazu, które są bezpośrednimi danymi wejściowymi modułu dekodującego.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{schemat-pretrained}
-    \caption{Diagram przedstawiający architekturę z wykorzystanie wcześniej wyuczonych modeli jako modułów kodujących. Opracowanie własne.}
-    \label{fig:schemat-pretrained}
-\end{figure}
-\noindent Wykorzystane moduły dekodujące:
+Wykorzystane moduły dekodujące:
 \begin{itemize}
     \item RNN \cite{rnn} -- podstawowa rekurencyjna sieć neuronowa.
     \item LSTM \cite{lstm} -- jest rozszerzeniem podstawowej rekurencyjnej sieci neuronowej, której głównym celem jest rozwiązanie problemu zanikającego gradientu.
@@ -38,7 +24,10 @@ Każda kombinacja modułu kodującego wraz z modułem dekodującym została spra
 \end{itemize}
 Wydajność testowania oraz skuteczność generowania podpisów została również sprawdzona dla dedykowanej architektury GIT \cite{wang2022git} wykorzystującej transformer wizyjny wraz z klasycznym transformerem. W tym celu wykorzystane zostały wagi udostępnione przez autorów -- pozwoliło to na całkowite pominięcie etapu uczenia tejże sieci.
 \subsection{Trenowanie pełnej architektury}
-W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych modułów kodujących, ich wydajność treningowa została porównana do wydajności uczenia pełnej architektury. Porównane zostały wszystkie wcześniej wymienione kombinacje modułów kodujących wraz z modułami dekodującymi. Oprócz tego do zbioru modułów dekodujących dodany został również podstawowy wariant splotowej sieci neuronowej. Moduły zostały połączone w taki sam sposób jak w przypadku wykorzystania wstępnie wytrenowanych wag -- ostatnia warstwa w pełni połączona została usunięta, a dane wyjściowe modułu kodującego są bezpośrednimi danymi wejściowymi modułu dekodującego.
+W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych modułów kodujących, ich wydajność treningowa została porównana do wydajności uczenia pełnej architektury. Porównane zostały wszystkie wcześniej wymienione kombinacje modułów kodujących wraz z modułami dekodującymi. Oprócz tego do zbioru modułów dekodujących dodany został również podstawowy wariant splotowej sieci neuronowej. Ponownie zostały wykorzystane dwa sposoby połączenia modułów: \begin{itemize}
+    \item zaproponowane rozwiązanie wykorzystujące dane z wewnętrznych warstw splotowych,
+    \item klasyczne podejście wykorzystujące jedynie wartości wyjściowe z ostatniej warstwy splotowej.
+\end{itemize}
 \subsection{Wstępne przetwarzanie danych}
 Dane wejściowe w postaci macierzy pikseli obrazów cyfrowych zostały normalizowane, a ich wymiary ujednolicone w celu uproszczenia obliczeń. Natomiast przetwarzanie języka naturalnego odbyło się poprzez zastosowanie tokenizacji -- w tym celu został wykorzystany wcześniej wytrenowany model Distilbert \cite{distilbert}.
 \subsection{Metryki}
@@ -74,4 +63,4 @@ Zbiór danych został podzielony na:
     \item zbiór walidacyjny -- 1 tysiąc zdjęć.
 \end{itemize}
 
-\noindent Wszystkie kombinacje wykorzystanych architektur zostały wyuczone przy pomocy treningowego zbioru danych. Dodatkowo w trakcie treningu jakość modelu była sprawdzana przy pomocy zbioru walidacyjnego. Dane były przetwarzane w seriach liczących po 32 elementy. Przetwarzanie było powtarzane 500 razy.
+\noindent Wszystkie kombinacje wykorzystanych architektur zostały wyuczone przy pomocy treningowego zbioru danych. Dodatkowo w trakcie treningu jakość modelu była sprawdzana przy pomocy zbioru walidacyjnego. Dane były przetwarzane w seriach liczących po 32 elementy. Przetwarzanie było powtarzane 500 razy w przypadku metody klasycznej, natomiast dla zaproponowanego rozwiązania przetwarzanie odbywało się 250 razy.
