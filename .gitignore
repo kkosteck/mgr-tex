@@ -1,7 +1,8 @@
-build
+build/*
 test/**/*.textest
 test/**/*.pdf
 .sconsign.dblite
 .vscode
 /*.pdf
 *.log
+!build/main.pdf
