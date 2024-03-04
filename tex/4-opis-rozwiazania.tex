@@ -11,7 +11,7 @@ Wektory pochodzące z warstw splotowych, otrzymane poprzez ich spłaszczenie są
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{diagram_probkowanie}
-    \caption{Diagram przedstawiający architekturę modułu kodującego.}
+    \caption{Diagram przedstawiający architekturę modułu kodującego. Opracowanie własne}
     \label{fig:schemat-probkowanie}
 \end{figure}
 \noindent Każdy wektor wyjściowy warstwy splotowej został zredukowany do takiego samego rozmiaru, który wyniósł 1024. Następnie zostały one połączone w jeden wektor, który posłużył jako wartość wejściowa modułu dekodującego. Schemat przedstawia jedynie poglądowy sposób działaniu modułu kodującego. Ze względu na wykorzystanie wielu różnych sieci splotowych w ramach modułu kodującego, mapy szczegółów zostały wydobyte na różnych ich poziomach.
@@ -25,7 +25,14 @@ Sieć AlexNet \cite{alexnet} składa się z kilku warstw zawierających następu
 Warstwa redukująca następnie jest połączona ponownie z warstwą splotową. Cała sieć zawiera pięć takich bloków. Wartości wyjściowe z warstw redukujących zostały wykorzystane jako wektory wejściowe dla warstw w pełni połączonych, których wyjście tworzy ostateczny wektor wyjściowy. Jako że ostateczny wektor składa się jedynie z czterech wektorów składowych, przedostatni blok został pominięty.
 % MAYBE: diagram alexnet
 \subsection{VGG}
-Sieć VGG \cite{vggnet} posiada nieco bardziej rozbudowaną architekturę niż sieć AlexNet. Podstawowe bloki również składają się z warstwy splotowej, funkcji aktywacji ReLU oraz warstwy redukcyjnej, jednakże główną różnicą jest zastosowanie większej ilości warstw splotowych w późniejszych poziomach całej sieci. Pierwsze dwa bloki są złożone z dwóch warstw splotowych, natomiast kolejne trzy z trzech. Z takiej konfiguracji można wyodrębnić pięć głównych bloków, tak samo jako w przypadku sieci AlexNet. W celu utworzenia ostatecznego wektora wyjściowego pominięty został przedostatni blok.
+Sieć VGG \cite{vggnet} posiada nieco bardziej rozbudowaną architekturę niż sieć AlexNet. Podstawowe bloki również składają się z warstwy splotowej, funkcji aktywacji ReLU oraz warstwy redukcyjnej, jednakże główną różnicą jest zastosowanie większej ilości warstw splotowych w późniejszych poziomach całej sieci, co można zaobserwować na rysunku \ref{fig:vgg-diagram}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{vgg_diagram}
+    \caption{Diagram przedstawiający architekturę sieci VGG. Opracowanie własne.}
+    \label{fig:vgg-diagram}
+\end{figure}
+\noindent Pierwsze dwa bloki są złożone z dwóch warstw splotowych, natomiast kolejne z trzech. Z takiej konfiguracji można wyodrębnić pięć głównych bloków, tak samo, jak w przypadku sieci AlexNet. W celu utworzenia ostatecznego wektora wyjściowego pominięty został przedostatni blok.
 % MAYBE: diagram vgg
 \subsection{ResNet}
 Architektura ResNet \cite{resnet} znacząco odbiega swoją budową od poprzednich sieci. Posiada ona cztery główne bloki składające się z pomniejszych bloków, które z kolei zawierają trzy warstwy splotowe wraz z warstwami normalizującymi. W celu utworzenia wektora wyjściowego nie było konieczności pomijania żadnego bloku ze względu na to, iż architektura składa się z czterech zasadniczych bloków. Pozwoliło to na utworzenie ostatecznego wektora składającego się z danych pochodzących z czterech różnych warstw sieci ResNet.

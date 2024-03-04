@@ -22,7 +22,7 @@ Każda kombinacja modułu kodującego wraz z modułem dekodującym została spra
     \item wydajności generowania podpisów, poprzez sprawdzenie czasu potrzebnego na przetworzenie testowego zbioru danych,
     \item efektywności poprzez sprawdzenie skuteczności generowania podpisów.
 \end{itemize}
-Wydajność testowania oraz skuteczność generowania podpisów została również sprawdzona dla dedykowanej architektury GIT \cite{wang2022git} wykorzystującej transformer wizyjny wraz z klasycznym transformerem. W tym celu wykorzystane zostały wagi udostępnione przez autorów -- pozwoliło to na całkowite pominięcie etapu uczenia tejże sieci.
+Wydajność testowania oraz skuteczność generowania podpisów została również sprawdzona dla dedykowanej architektury GIT \cite{wang2022git} wykorzystującej model Florence \cite{florence} jako moduł kodujący wraz z klasycznym transformerem jako modułem dekodującym. W tym celu wykorzystane zostały wagi udostępnione przez autorów -- pozwoliło to na całkowite pominięcie etapu uczenia tejże sieci.
 \subsection{Trenowanie pełnej architektury}
 W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych modułów kodujących, ich wydajność treningowa została porównana do wydajności uczenia pełnej architektury. Porównane zostały wszystkie wcześniej wymienione kombinacje modułów kodujących wraz z modułami dekodującymi. Oprócz tego do zbioru modułów dekodujących dodany został również podstawowy wariant splotowej sieci neuronowej. Ponownie zostały wykorzystane dwa sposoby połączenia modułów: \begin{itemize}
     \item zaproponowane rozwiązanie wykorzystujące dane z wewnętrznych warstw splotowych,
@@ -31,13 +31,20 @@ W celu sprawdzenia jak duże znaczenie ma wykorzystanie wstępnie wytrenowanych 
 \subsection{Wstępne przetwarzanie danych}
 Dane wejściowe w postaci macierzy pikseli obrazów cyfrowych zostały normalizowane, a ich wymiary ujednolicone w celu uproszczenia obliczeń. Natomiast przetwarzanie języka naturalnego odbyło się poprzez zastosowanie tokenizacji -- w tym celu został wykorzystany wcześniej wytrenowany model Distilbert \cite{distilbert}.
 \subsection{Metryki}
-Oprócz parametrów dotyczących wydajności trenowania oraz testowania podanych rozwiązań sprawdzona została również skuteczność otrzymanych wyników. Wybrane metryki:
-\begin{itemize}
-    \item BLEU (ang. Bilingual Evaluation Understudy) \cite{bleu} -- metryka oryginalnie wywodząca się z dziedziny tłumaczenia maszynowego, jednakże ze względu na taki sam format danych, idealnie pasuje również do ewaluacji wyników generowania podpisów do obrazów. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica. % MAYBE dodać formułe wyliczania oraz informację o n gramach
-    \item METEOR (ang. Metric for Evaluation of Translation with Explicit ORdering) \cite{meteor} -- metryka będąca rozwinięciem metryki BLEU. Odznacza się lepszą oceną korelacji na poziomie zdań, a nie tak jak w~przypadku BLEU, na~poziomie całego korpusu. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
-    \item CIDEr (ang. Consensus-based Image Description Evaluation) \cite{cider} -- dedykowana metryka do oceny jakości generowanych opisów obrazów. Poprzez zastosowanie algorytmu TF-IDF \cite{tfidf} pozwala na ocenę jakości generowanych podpisów w oparciu o~podobieństwo do wszystkich podpisów, a nie tylko do jednego. Zakres jej wartości jest większy niż w przypadku pozostałych metryk, ponieważ wynosi od 0 do 10, gdzie wartość 10 oznacza najlepszy wynik.
-    \item SPICE -- wykorzystuje ona rozbiór logiczny zdania w celu stworzenie jego grafu, które są następnie porównywane z grafami pozostałych zdań. Dzięki temu metryka ta jest w stanie ocenić podobieństwo poprzez strukturę zdania, a nie tylko występowanie danych słów. Tak jak w przypadku metryk BLEU i METEOR zakres wartości zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
-\end{itemize}
+Oprócz parametrów dotyczących wydajności trenowania oraz testowania podanych rozwiązań sprawdzona została również skuteczność otrzymanych wyników przy pomocy wybranych metryk.
+\subsubsection{BLEU}
+% TODO opisać więcej
+BLEU (ang. Bilingual Evaluation Understudy) \cite{bleu} -- metryka oryginalnie wywodząca się z dziedziny tłumaczenia maszynowego, jednakże ze względu na taki sam format danych, idealnie pasuje również do ewaluacji wyników generowania podpisów do obrazów. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
+\subsubsection{METEOR}
+% TODO opisać więcej
+METEOR (ang. Metric for Evaluation of Translation with Explicit ORdering) \cite{meteor} -- metryka będąca rozwinięciem metryki BLEU. Odznacza się lepszą oceną korelacji na poziomie zdań, a nie tak jak w~przypadku BLEU, na~poziomie całego korpusu. Zakres wartości metryki zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
+\subsubsection{CIDEr}
+% TODO opisać więcej
+CIDEr (ang. Consensus-based Image Description Evaluation) \cite{cider} -- dedykowana metryka do oceny jakości generowanych opisów obrazów. Poprzez zastosowanie algorytmu TF-IDF \cite{tfidf} pozwala na ocenę jakości generowanych podpisów w oparciu o~podobieństwo do wszystkich podpisów, a nie tylko do jednego. Zakres jej wartości jest większy niż w przypadku pozostałych metryk, ponieważ wynosi od 0 do 10, gdzie wartość 10 oznacza najlepszy wynik.
+\subsubsection{SPICE}
+% TODO opisać więcej, dodać źródło
+SPICE -- wykorzystuje ona rozbiór logiczny zdania w celu stworzenie jego grafu, które są następnie porównywane z grafami pozostałych zdań. Dzięki temu metryka ta jest w stanie ocenić podobieństwo poprzez strukturę zdania, a nie tylko występowanie danych słów. Tak jak w przypadku metryk BLEU i METEOR zakres wartości zawiera się w przedziale od 0 do 1, gdzie najlepszą wartością jest górna granica.
+
 W przypadku wyników architektur wykorzystujących różne kombinacje modułów kodujących oraz dekodujących zostały one przedstawione poprzez tylko dwie metryki: BLEU i CIDEr. Pozostałe wskaźniki zostały wykorzystane jedynie w przypadku porównania wyników bezpośrednio z wartościami otrzymanymi przez autorów dla dedykowanych rozwiązań. Ograniczenie zostało wprowadzone, w celu zachowania przejrzystości wyników, a także ze względu na fakt, iż metryki BLEU i CIDEr powinny być w pełni wystarczające, aby ocenić jakość generowanych podpisów.
 \subsection{Wykorzystane środowiska}
 W celu porównania wpływu użytych jednostek obliczeniowych na efektywność badanych architektury wykorzystane zostały różne karty graficzne:
@@ -64,3 +71,4 @@ Zbiór danych został podzielony na:
 \end{itemize}
 
 \noindent Wszystkie kombinacje wykorzystanych architektur zostały wyuczone przy pomocy treningowego zbioru danych. Dodatkowo w trakcie treningu jakość modelu była sprawdzana przy pomocy zbioru walidacyjnego. Dane były przetwarzane w seriach liczących po 32 elementy. Przetwarzanie było powtarzane 500 razy w przypadku metody klasycznej, natomiast dla zaproponowanego rozwiązania przetwarzanie odbywało się 250 razy.
+% MAYBE dopisać stronę
